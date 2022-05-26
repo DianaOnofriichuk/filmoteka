@@ -1,9 +1,11 @@
 import { refs, receiveGenres } from './fetchMovies';
+import img from './images/no-poster-available.jpg';
+
 export default function createMarkup(movies) {
   const markup = movies.results
     .map(result => {
       return `<li class="movie-card">
-     <img src=https://image.tmdb.org/t/p/w300/${result.poster_path} alt="${
+     <img src=${addPoster(result.poster_path)} alt="${
         result.original_title
       }poster" loading="lazy" class="image"/>
      
@@ -18,5 +20,11 @@ export default function createMarkup(movies) {
     })
     .join('');
 
-  refs.moviesListEl.insertAdjacentHTML('beforeend', markup);
+  refs.moviesListEl.innerHTML = markup;
+}
+function addPoster(posterWay) {
+  if (posterWay) {
+    return `https://image.tmdb.org/t/p/w300${posterWay}`;
+  }
+  return `${img}`;
 }
