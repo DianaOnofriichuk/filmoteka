@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,25 +13,26 @@
     />
   </head>
   <body>
-    <header class="header header-bg-home-page">
+    <!-- ////////////////////header///////////////////// -->
+    <header class="header">
       <div class="container">
         <nav class="navigation">
           <a class="logo link" href="index.html">
             <svg class="logo__icon">
               <use href="images/sprites.svg#icon-film"></use>
             </svg>
-            &nbspFilmoteka
+            <p class="logo-text">&nbspFilmoteka</p>
           </a>
           <ul class="navigation-list list">
             <li class="navigation-item">
-              <a class="navigation-link home-page link">Home</a>
+              <a class="navigation-link home-page-js link">Home</a>
             </li>
             <li class="navigation-item">
-              <a class="navigation-link library-page link">My library</a>
+              <a class="navigation-link library-page-js link">My library</a>
             </li>
           </ul>
         </nav>
-        <div class="search-container">
+        <div class="header-central-container">
           <form class="search-form" id="search-form">
             <input
               class="search-input"
@@ -42,14 +43,24 @@
             />
             <button class="submit-btn" type="submit">
               <svg class="icon-search">
-                <use href="images/sprites.svg#icon-search"></use>
+                <use href="./images/sprites.svg#icon-search"></use>
               </svg>
             </button>
           </form>
+          <p class="search-failure-text"></p>
+          <!-- ///////////////// library////////////////////////////////////////////////  -->
+          <ul class="library-buttons-list list">
+            <li class="library-buttons-item">
+              <button type="button" class="btn watched-btn-js">Watched</button>
+            </li>
+            <li class="library-buttons-item">
+              <button type="button" class="btn queue-btn-js">Queue</button>
+            </li>
+          </ul>
         </div>
-        <p class="search-failure-text"></p>
       </div>
     </header>
+    <!-- ////////////////main////////////////// -->
     <main>
       <section class="section">
         <div class="container">
@@ -57,6 +68,7 @@
         </div>
       </section>
     </main>
+    <!-- /////////////footer////////////////////// -->
     <footer class="footer">
       <div class="container"></div>
       <p class="footer-text">
@@ -67,6 +79,22 @@
         &nbsp by Diana Onofriichuk
       </p>
     </footer>
+    <!-- ///////////////////modal////////////////// -->
+    <div class="backdrop is-hidden">
+      <div class="modal">
+        <button type="button" class="modal-close-btn">
+          <svg class="modal-close-btn-icon">
+            <use href="images/sprites.svg#icon-close"></use>
+          </svg>
+        </button>
+        <div class="modal_movie-container"></div>
+        <div class="modal_buttns-container">
+          <button type="button" class="modal-btn">Add to watched</button>
+          <button type="button" class="modal-btn">Add to queue</button>
+        </div>
+      </div>
+    </div>
+
     <script src="index.js"></script>
   </body>
 </html>
