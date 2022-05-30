@@ -7,7 +7,7 @@ export function homeHeaderMarkup() {
   refs.headerEl.classList.remove('header-bg-library-page');
   refs.headerEl.classList.add('header-bg-home-page');
   refs.libraryButtonsListEl.classList.add('header-central-container-toggle');
-  refs.searchEl.classList.remove('header-central-container-toggle');
+  refs.formContainerEl.classList.remove('header-central-container-toggle');
 }
 
 export function libraryHeaderMarkup() {
@@ -15,7 +15,7 @@ export function libraryHeaderMarkup() {
   refs.libraryPageEl.classList.add('current-page');
   refs.headerEl.classList.remove('header-bg-home-page');
   refs.headerEl.classList.add('header-bg-library-page');
-  refs.searchEl.classList.add('header-central-container-toggle');
+  refs.formContainerEl.classList.add('header-central-container-toggle');
   refs.libraryButtonsListEl.classList.remove('header-central-container-toggle');
 }
 export function createMarkup(movies) {
@@ -48,35 +48,37 @@ function addPoster(posterWay) {
 
 export function createModalMarkup(oneMovie) {
   const modalMarkup = `
-  <img class="movie_modal-poster" src=${addPoster(oneMovie.poster_path)} alt=${
-    oneMovie.original_title
-  } />
-  <div class="movie_modal-text-container">
-  <p class="movie_modal-name">${oneMovie.title}</p>
-  <ul class="movie_modal-list list">
-    <li class="movie_modal-item">
-      <p class="movie_modal-subtitle">Vote / Votes </p> 
-       <p class="movie_modal-value-rating">${oneMovie.vote_average}<p/><p class="movie_modal-value">
+  <img class="modal-poster" src=${addPoster(oneMovie.poster_path)} alt=${oneMovie.original_title} />
+  <div class="modal-text-container">
+  <p class="modal-name">${oneMovie.title}</p>
+  <ul class="modal-list list">
+    <li class="modal-item">
+      <p class="modal-info-name">Vote / Votes </p> 
+       <p class="modal-value-rating">${oneMovie.vote_average}<p/><p class="modal-info-value">
       / ${oneMovie.vote_count}</p>
     </li>
-    <li class="movie_modal-item">
-      <p class="movie_modal-subtitle">Popularity </p> <p class="movie_modal-value">${
+    <li class="modal-item">
+      <p class="modal-info-name">Popularity </p> <p class="modal-info-value">${
         oneMovie.popularity
       }</p>
     </li>
-    <li class="movie_modal-item">
-      <p class="movie_modal-subtitle">Original Title </p><p class="movie_modal-value">${
+    <li class="modal-item">
+      <p class="modal-info-name">Original Title </p><p class="modal-info-value">${
         oneMovie.original_title
       }</p>
     </li>
-    <li class="movie_modal-item">
-      <p class="movie_modal-subtitle">Genre </p> <p class="movie_modal-value">${receiveOneMovieGenres(
+    <li class="modal-item">
+      <p class="modal-info-name">Genre </p> <p class="modal-info-value">${receiveOneMovieGenres(
         oneMovie.genres,
       )}</p>
     </li>
   </ul>
-  <p class="movie_modal-desc-title">About</p>
-  <p class="movie_modal-description">${oneMovie.overview}</p>
+  <p class="modal-about">About</p>
+  <p class="modal-description">${oneMovie.overview}</p>
+  <div class="modal_buttns-container">
+          <button type="button" class="modal-btn add-to-watched">Add to watched</button>
+          <button type="button" class="modal-btn add-to-queue">Add to queue</button>
+        </div>
   <div/>`;
-  refs.modalContainerEl.insertAdjacentHTML('afterbegin', modalMarkup);
+  refs.modalContainerEl.innerHTML = modalMarkup;
 }

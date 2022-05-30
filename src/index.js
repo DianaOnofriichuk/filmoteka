@@ -13,9 +13,11 @@ import {
   libraryHeaderMarkup,
   createModalMarkup,
 } from './markup.js';
+import { addToLocalstorige, updateWatchedBtn } from './localStorige';
 let pageCounter = 1;
 let searchValue = '';
 
+// ////////////////////////// start page //////////////////////////////
 function getTrendingMovies() {
   homeHeaderMarkup();
   fetchTrendingMovies()
@@ -26,11 +28,9 @@ function getTrendingMovies() {
     });
   fetchGenres();
 }
-
 getTrendingMovies();
 
-refs.homePageEl.addEventListener('click', getTrendingMovies);
-
+//////////////////////// search movies ///////////////////////////////
 refs.searchEl.addEventListener('submit', onSearchMovies);
 
 function onSearchMovies(e) {
@@ -60,11 +60,7 @@ function notificationError() {
   }, 2000);
 }
 
-refs.libraryPageEl.addEventListener('click', getSavedMovies);
-function getSavedMovies() {
-  libraryHeaderMarkup();
-}
-
+// //////////////////////// open modal window ////////////////////////
 refs.moviesListEl.addEventListener('click', onClickMovieCard);
 function onClickMovieCard(e) {
   const openModal =
@@ -73,17 +69,53 @@ function onClickMovieCard(e) {
   if (!openModal) {
     return;
   } else {
-    refs.modalEl.classList.remove('is-hidden');
     fetchOneMovie(e.target.id)
       .then(oneMovie => {
         createModalMarkup(oneMovie);
+        addToWatched();
+        addToQueue();
+        refs.modalEl.classList.remove('is-hidden');
       })
       .catch(error => console.log(error));
   }
 }
 
+// ///////////////////////// add to watched ////////////////////////
+function addToWatched() {
+  const addToWatchedBtn = document.querySelector('.add-to-watched');
+  addToWatchedBtn.addEventListener('click', onClickAddToWatchedBtn);
+}
+function onClickAddToWatchedBtn() {
+  addToLocalstorige('addToWatchedMovie');
+}
+
+// /////////////////////// add to queue ///////////////////////////////
+function addToQueue() {
+  const addToQueueBtn = document.querySelector('.add-to-queue');
+  addToQueueBtn.addEventListener('click', onClickAddToQueueBtn);
+}
+function onClickAddToQueueBtn() {
+  addToLocalstorige('addToQueueMovie');
+}
+
+// ////////////////////////// close modal window /////////////////////
 refs.modalCloseBtnEl.addEventListener('click', onModalClose);
 function onModalClose() {
   refs.modalEl.classList.add('is-hidden');
   refs.modalContainerEl.innerHTML = '';
+}
+refs.backdropEl.addEventListener('click', onBackdropClose);
+function onBackdropClose(e) {
+  if (e.currentTarget === e.target) {
+    onModalClose();
+  }
+}
+
+// //////////////////////// home page ////////////////////
+refs.homePageEl.addEventListener('click', getTrendingMovies);
+
+//////////////////////// library page /////////////////////
+refs.libraryPageEl.addEventListener('click', getSavedMovies);
+function getSavedMovies() {
+  libraryHeaderMarkup();
 }

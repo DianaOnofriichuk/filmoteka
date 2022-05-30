@@ -4,11 +4,13 @@ export const refs = {
   libraryPageEl: document.querySelector('.library-page-js'),
   headerEl: document.querySelector('.header'),
   libraryButtonsListEl: document.querySelector('.library-buttons-list'),
+  formContainerEl: document.querySelector('.form-container'),
   searchEl: document.querySelector('.search-form'),
   notificationEl: document.querySelector('.search-failure-text'),
   modalEl: document.querySelector('.backdrop'),
   modalContainerEl: document.querySelector('.modal_movie-container'),
   modalCloseBtnEl: document.querySelector('.modal-close-btn'),
+  backdropEl: document.querySelector('.backdrop'),
 };
 const KEY = '4a38965c8274ee66c1019c21406c4653';
 export let selectedMovie = '';
@@ -70,6 +72,5 @@ export async function fetchOneMovie(movieName) {
     `https://api.themoviedb.org/3/movie/${movieName}?api_key=${KEY}&language=en-US`,
   );
   selectedMovie = await response.json();
-  // localStorage.setItem('selectedMovie', JSON.stringify(selectedMovie));
   return selectedMovie;
 }

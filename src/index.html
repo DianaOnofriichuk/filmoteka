@@ -33,21 +33,23 @@
           </ul>
         </nav>
         <div class="header-central-container">
-          <form class="search-form" id="search-form">
-            <input
-              class="search-input"
-              autocomplete="off"
-              type="text"
-              name="searchQuery"
-              placeholder="Пошук фільмів"
-            />
-            <button class="submit-btn" type="submit">
-              <svg class="icon-search">
-                <use href="./images/sprites.svg#icon-search"></use>
-              </svg>
-            </button>
-          </form>
-          <p class="search-failure-text"></p>
+          <div class="form-container">
+            <form class="search-form" id="search-form">
+              <input
+                class="search-input"
+                autocomplete="off"
+                type="text"
+                name="searchQuery"
+                placeholder="Пошук фільмів"
+              />
+              <button class="submit-btn" type="submit">
+                <svg class="icon-search">
+                  <use href="./images/sprites.svg#icon-search"></use>
+                </svg>
+              </button>
+            </form>
+            <p class="search-failure-text"></p>
+          </div>
           <!-- ///////////////// library////////////////////////////////////////////////  -->
           <ul class="library-buttons-list list">
             <li class="library-buttons-item">
@@ -72,7 +74,7 @@
     <footer class="footer">
       <div class="container"></div>
       <p class="footer-text">
-        © 2020 | All Rights Reserved | Developed with &nbsp
+        © 2022 | All Rights Reserved | Developed &nbsp
         <svg class="footer-icon">
           <use href="images/sprites.svg#icon-Group"></use>
         </svg>
@@ -88,10 +90,6 @@
           </svg>
         </button>
         <div class="modal_movie-container"></div>
-        <div class="modal_buttns-container">
-          <button type="button" class="modal-btn">Add to watched</button>
-          <button type="button" class="modal-btn">Add to queue</button>
-        </div>
       </div>
     </div>
 
