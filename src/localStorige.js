@@ -1,5 +1,5 @@
 import { selectedMovie } from './fetchMovies';
-let addToWatchedMowies = [];
+let addToMowies = [];
 
 function getMovies(movie) {
   try {
@@ -15,26 +15,24 @@ function getMovies(movie) {
   }
 }
 export function addToLocalstorige(movie) {
-  addToWatchedMowies = getMovies(movie);
-  addToWatchedMowies.push(selectedMovie);
-  localStorage.setItem(movie, JSON.stringify(addToWatchedMowies));
+  addToMowies = getMovies(movie);
+  addToMowies.push(selectedMovie);
+  localStorage.setItem(movie, JSON.stringify(addToMowies));
+  return addToMowies;
 }
 
-// function findMovieInLocalStorige() {
-//   if (addToMowies.find(movie => selectedMovie.id === movie.id)) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
+export function findMovieInLocalStorige(btn, key, btnName) {
+  addToMowies = getMovies(key);
+  if (addToMowies.length !== 0 && addToMowies.find(movie => selectedMovie.id === movie.id)) {
+    btn.classList.add('is-active');
+    btn.textContent = `remove from ${btnName}`;
+  } else {
+    return;
+  }
+}
 
-// export function updateWatchedBtn(btn) {
-//   if (!findMovieInLocalStorige()) {
-//     console.log('false');
-//     return;
-//   } else {
-//     btn.classList.add('is-active');
-//     btn.textContent = 'remove from queue';
-//     console.log('true');
-//   }
-// }
+export function removeFromLocalStorige(key) {
+  addToMowies = getMovies(key);
+  const newArray = addToMowies.filter(movie => movie.id !== selectedMovie.id);
+  localStorage.setItem(key, JSON.stringify(newArray));
+}

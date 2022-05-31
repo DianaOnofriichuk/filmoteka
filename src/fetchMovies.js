@@ -7,10 +7,11 @@ export const refs = {
   formContainerEl: document.querySelector('.form-container'),
   searchEl: document.querySelector('.search-form'),
   notificationEl: document.querySelector('.search-failure-text'),
-  modalEl: document.querySelector('.backdrop'),
   modalContainerEl: document.querySelector('.modal_movie-container'),
   modalCloseBtnEl: document.querySelector('.modal-close-btn'),
   backdropEl: document.querySelector('.backdrop'),
+  watchedBtn: document.querySelector('.watched-btn-js'),
+  oueueBtn: document.querySelector('.queue-btn-js'),
 };
 const KEY = '4a38965c8274ee66c1019c21406c4653';
 export let selectedMovie = '';
@@ -33,30 +34,6 @@ export async function fetchGenres() {
     return;
   }
 }
-export function receiveGenres(genresId) {
-  const genres = JSON.parse(localStorage.getItem('genres'));
-  const genresArray = [];
-  genres.map(genre => {
-    if (genresId.includes(genre.id)) {
-      genresArray.push(genre.name);
-    }
-  });
-
-  if (genresArray.length > 2) {
-    genresArray.splice(2);
-    genresArray.push('Other');
-  }
-
-  return genresArray.join(', ');
-}
-
-export function receiveOneMovieGenres(genres) {
-  const genreName = [];
-  genres.map(genre => {
-    genreName.push(genre.name);
-  });
-  return genreName.join(', ');
-}
 
 export async function fetchMovies(movieName, pageCounter) {
   const response = await fetch(
@@ -73,4 +50,37 @@ export async function fetchOneMovie(movieName) {
   );
   selectedMovie = await response.json();
   return selectedMovie;
+}
+
+// /////////////// receive genres /////////////////////////
+export function receiveGenres(result) {
+  if (result.genres !== undefined) {
+    return receiveOneMovieGenres(result.genres);
+  } else {
+    return receiveGenresById(result.genre_ids);
+  }
+}
+function receiveGenresById(genresId) {
+  const genres = JSON.parse(localStorage.getItem('genres'));
+  const genresArray = [];
+
+  genres.map(genre => {
+    if (genresId.includes(genre.id)) {
+      genresArray.push(genre.name);
+    }
+  });
+
+  if (genresArray.length > 2) {
+    genresArray.splice(2);
+    genresArray.push('Other');
+  }
+  return genresArray.join(', ');
+}
+
+function receiveOneMovieGenres(genres) {
+  const genreName = [];
+  genres.map(genre => {
+    genreName.push(genre.name);
+  });
+  return genreName.join(', ');
 }

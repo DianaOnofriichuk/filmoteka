@@ -1,4 +1,4 @@
-import { refs, receiveGenres, receiveOneMovieGenres } from './fetchMovies';
+import { refs, receiveGenres } from './fetchMovies';
 import img from './images/no-poster-available.jpg';
 
 export function homeHeaderMarkup() {
@@ -18,8 +18,9 @@ export function libraryHeaderMarkup() {
   refs.formContainerEl.classList.add('header-central-container-toggle');
   refs.libraryButtonsListEl.classList.remove('header-central-container-toggle');
 }
-export function createMarkup(movies) {
-  const markup = movies.results
+
+export function createListMarkup(results) {
+  const markup = results
     .map(result => {
       return `<li class="movie-card" id=${result.id}>
      <img src=${addPoster(result.poster_path)} alt=${
@@ -30,7 +31,7 @@ export function createMarkup(movies) {
          ${result.original_title}
        </p>
        <p class="movie-genre" id=${result.id}>
-       ${receiveGenres(result.genre_ids)} | ${result.release_date.slice(0, 4)}
+       ${receiveGenres(result)} | ${result.release_date.slice(0, 4)}
      </p>
      
    </li>`;
@@ -68,9 +69,8 @@ export function createModalMarkup(oneMovie) {
       }</p>
     </li>
     <li class="modal-item">
-      <p class="modal-info-name">Genre </p> <p class="modal-info-value">${receiveOneMovieGenres(
-        oneMovie.genres,
-      )}</p>
+      <p class="modal-info-name">Genre </p> <p class="modal-info-value">${receiveGenres(oneMovie)}
+        </p>
     </li>
   </ul>
   <p class="modal-about">About</p>
