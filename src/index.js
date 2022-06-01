@@ -6,11 +6,15 @@ import {
   libraryHeaderMarkup,
   createModalMarkup,
 } from './markup.js';
-import { addToLocalstorige, findMovieInLocalStorige, removeFromLocalStorige } from './localStorige';
+import {
+  addToLocalstorige,
+  findMovieInLocalStorige,
+  removeFromLocalStorige,
+  watchedMowies,
+  queueMowies,
+} from './localStorige';
 let pageCounter = 1;
 let searchValue = '';
-let watchedMowies = JSON.parse(localStorage.getItem('addToWatchedMovies'));
-let QueueMowies = JSON.parse(localStorage.getItem('addToQueueMovies'));
 
 // ////////////////////////// start page //////////////////////////////
 function getTrendingMovies() {
@@ -67,8 +71,8 @@ function onClickMovieCard(e) {
     fetchOneMovie(e.target.id)
       .then(oneMovie => {
         createModalMarkup(oneMovie);
-        addToWatched();
-        addToQueue();
+        addToWatchedBtnActive();
+        addToQueueBtnActive();
         refs.backdropEl.classList.remove('is-hidden');
       })
       .catch(error => console.log(error));
@@ -76,43 +80,51 @@ function onClickMovieCard(e) {
 }
 
 // ///////////////////////// add to watched ////////////////////////
-function addToWatched() {
-  const addToWatchedBtn = document.querySelector('.add-to-watched');
+let addToWatchedBtn = {};
+
+function addToWatchedBtnActive() {
+  addToWatchedBtn = document.querySelector('.add-to-watched');
   findMovieInLocalStorige(addToWatchedBtn, 'addToWatchedMovies', `watched`);
   addToWatchedBtn.addEventListener('click', onClickAddToWatchedBtn);
 }
+
 function onClickAddToWatchedBtn(e) {
   if (e.target.textContent === 'Add to watched') {
     addToLocalstorige('addToWatchedMovies');
-    watchedMowies = JSON.parse(localStorage.getItem('addToWatchedMovies'));
-    e.target.classList.add('is-active');
-    e.target.textContent = `remove from watched`;
+    addMovie(addToWatchedBtn, `watched`);
+    removeMovie(addToQueueBtn, `queue`);
+    removeFromLocalStorige('addToQueueMovies');
   } else {
     removeFromLocalStorige('addToWatchedMovies');
-    watchedMowies = JSON.parse(localStorage.getItem('addToWatchedMovies'));
-    e.target.classList.remove('is-active');
-    e.target.textContent = `Add to watched`;
+    removeMovie(addToWatchedBtn, `watched`);
   }
 }
-
 // /////////////////////// add to queue ///////////////////////////////
-function addToQueue() {
-  const addToQueueBtn = document.querySelector('.add-to-queue');
+let addToQueueBtn = {};
+function addToQueueBtnActive() {
+  addToQueueBtn = document.querySelector('.add-to-queue');
   findMovieInLocalStorige(addToQueueBtn, 'addToQueueMovies', `queue`);
   addToQueueBtn.addEventListener('click', onClickAddToQueueBtn);
 }
 function onClickAddToQueueBtn(e) {
   if (e.target.textContent === 'Add to queue') {
     addToLocalstorige('addToQueueMovies');
-    QueueMowies = JSON.parse(localStorage.getItem('addToQueueMovies'));
-    e.target.classList.add('is-active');
-    e.target.textContent = `remove from queue`;
+    addMovie(addToQueueBtn, `queue`);
+    removeMovie(addToWatchedBtn, `watched`);
+    removeFromLocalStorige('addToWatchedMovies');
   } else {
     removeFromLocalStorige('addToQueueMovies');
-    QueueMowies = JSON.parse(localStorage.getItem('addToQueueMovies'));
-    e.target.classList.remove('is-active');
-    e.target.textContent = `Add to queue`;
+    removeMovie(addToQueueBtn, `queue`);
   }
+}
+// //////////////// add/remove movie//////////////////////////////////////
+function addMovie(Btn, BtnName) {
+  Btn.classList.add('is-active');
+  Btn.textContent = `remove from ${BtnName}`;
+}
+function removeMovie(Btn, BtnName) {
+  Btn.classList.remove('is-active');
+  Btn.textContent = `Add to ${BtnName}`;
 }
 
 // ////////////////////////// close modal window /////////////////////
@@ -134,10 +146,9 @@ function updateLibraryList() {
   if (refs.libraryButtonsListEl.classList.contains('header-central-container-toggle')) {
     return;
   } else if (refs.oueueBtn.classList.contains('is-active')) {
-    createListMarkup(QueueMowies);
+    checkQueueContent();
   } else {
-    console.log(watchedMowies);
-    createListMarkup(watchedMowies);
+    checkWatchedContent();
   }
 }
 
@@ -153,14 +164,33 @@ function getSavedMovies() {
 
 refs.watchedBtn.addEventListener('click', onWatchedBtnClick);
 function onWatchedBtnClick() {
-  createListMarkup(watchedMowies);
+  checkWatchedContent();
   refs.oueueBtn.classList.remove('is-active');
   refs.watchedBtn.classList.add('is-active');
 }
 
 refs.oueueBtn.addEventListener('click', onQueueBtnClick);
 function onQueueBtnClick() {
-  createListMarkup(QueueMowies);
+  checkQueueContent();
   refs.watchedBtn.classList.remove('is-active');
   refs.oueueBtn.classList.add('is-active');
+}
+const url = './images/empty.PNG';
+function checkWatchedContent() {
+  if (watchedMowies.length !== 0) {
+    createListMarkup(watchedMowies);
+  } else {
+    refs.moviesListEl.innerHTML = "<img src='./images/empty.PNG' alt='It is empty here' >";
+  }
+}
+
+function checkQueueContent() {
+  if (queueMowies.length !== 0) {
+    createListMarkup(queueMowies);
+  } else {
+    const image = new Image();
+    image.src = './images/empty.PNG';
+    image.alt = 'It is empty here';
+    refs.moviesListEl.appendChild(image);
+  }
 }

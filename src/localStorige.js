@@ -1,6 +1,7 @@
 import { selectedMovie } from './fetchMovies';
 let addToMowies = [];
-
+export let watchedMowies = JSON.parse(localStorage.getItem('addToWatchedMovies'));
+export let queueMowies = JSON.parse(localStorage.getItem('addToQueueMovies'));
 function getMovies(movie) {
   try {
     const localStorageItems = JSON.parse(localStorage.getItem(movie));
@@ -18,7 +19,8 @@ export function addToLocalstorige(movie) {
   addToMowies = getMovies(movie);
   addToMowies.push(selectedMovie);
   localStorage.setItem(movie, JSON.stringify(addToMowies));
-  return addToMowies;
+  watchedMowies = JSON.parse(localStorage.getItem('addToWatchedMovies'));
+  queueMowies = JSON.parse(localStorage.getItem('addToQueueMovies'));
 }
 
 export function findMovieInLocalStorige(btn, key, btnName) {
@@ -35,4 +37,6 @@ export function removeFromLocalStorige(key) {
   addToMowies = getMovies(key);
   const newArray = addToMowies.filter(movie => movie.id !== selectedMovie.id);
   localStorage.setItem(key, JSON.stringify(newArray));
+  watchedMowies = JSON.parse(localStorage.getItem('addToWatchedMovies'));
+  queueMowies = JSON.parse(localStorage.getItem('addToQueueMovies'));
 }
