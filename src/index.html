@@ -11,6 +11,10 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css"
+    />
   </head>
   <body>
     <!-- ////////////////////header///////////////////// -->
@@ -40,7 +44,7 @@
                 autocomplete="off"
                 type="text"
                 name="searchQuery"
-                placeholder="Пошук фільмів"
+                placeholder="Search movie"
               />
               <button class="submit-btn" type="submit">
                 <svg class="icon-search">
@@ -67,6 +71,7 @@
       <section class="section">
         <div class="container">
           <ul class="movies-list list"></ul>
+          <div id="tui-pagination-container" class="tui-pagination"></div>
         </div>
       </section>
     </main>
@@ -74,7 +79,7 @@
     <footer class="footer">
       <div class="container"></div>
       <p class="footer-text">
-        © 2022 | All Rights Reserved | Developed &nbsp
+        © 2022 | All Rights Reserved | Developed with &nbsp
         <svg class="footer-icon">
           <use href="images/sprites.svg#icon-Group"></use>
         </svg>

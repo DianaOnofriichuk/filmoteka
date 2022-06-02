@@ -13,14 +13,19 @@ import {
   watchedMowies,
   queueMowies,
 } from './localStorige';
+import Pagination from 'tui-pagination';
 let pageCounter = 1;
 let searchValue = '';
 
 // ////////////////////////// start page //////////////////////////////
 function getTrendingMovies() {
   homeHeaderMarkup();
-  fetchTrendingMovies()
-    .then(trendingMovies => createListMarkup(trendingMovies.results))
+
+  fetchTrendingMovies(searchValue, pageCounter)
+    .then(trendingMovies => {
+      createListMarkup(trendingMovies.results);
+      openPagination(trendingMovies.total_results, fetchTrendingMovies);
+    })
     .catch(error => {
       notificationError();
       console.log(error);
@@ -39,7 +44,11 @@ function onSearchMovies(e) {
 
   fetchMovies(searchValue, pageCounter)
     .then(movies => {
-      if (movies.results.length !== 0) {
+      if (movies.total_results > 20) {
+        createListMarkup(movies.results);
+        openPagination(movies.total_results, fetchMovies, searchValue);
+      } else if (movies.total_results !== 0) {
+        refs.container.innerHTML = '';
         createListMarkup(movies.results);
       } else {
         notificationError();
@@ -49,7 +58,6 @@ function onSearchMovies(e) {
       notificationError();
       console.log(error);
     });
-  pageCounter += 1;
 }
 
 function notificationError() {
@@ -57,6 +65,22 @@ function notificationError() {
   setTimeout(() => {
     refs.notificationEl.textContent = '';
   }, 2000);
+}
+// ///////////////////// pagination ////////////////////////////
+function openPagination(totalItems, func, value) {
+  const options = {
+    totalItems,
+    itemsPerPage: 20,
+    visiblePages: 5,
+  };
+
+  let instance = new Pagination(refs.container, options);
+  instance.on('afterMove', event => {
+    pageCounter = event.page;
+    func(value, pageCounter).then(movies => {
+      createListMarkup(movies.results);
+    });
+  });
 }
 
 // //////////////////////// open modal window ////////////////////////
@@ -175,22 +199,25 @@ function onQueueBtnClick() {
   refs.watchedBtn.classList.remove('is-active');
   refs.oueueBtn.classList.add('is-active');
 }
-const url = './images/empty.PNG';
+
 function checkWatchedContent() {
   if (watchedMowies.length !== 0) {
     createListMarkup(watchedMowies);
+    refs.container.innerHTML = '';
   } else {
-    refs.moviesListEl.innerHTML = "<img src='./images/empty.PNG' alt='It is empty here' >";
+    refs.container.innerHTML = '';
+    refs.moviesListEl.innerHTML = '';
+    refs.moviesListEl.innerHTML = '<p class="empty-text">no movies watched</p>';
   }
 }
 
 function checkQueueContent() {
   if (queueMowies.length !== 0) {
+    refs.container.innerHTML = '';
     createListMarkup(queueMowies);
   } else {
-    const image = new Image();
-    image.src = './images/empty.PNG';
-    image.alt = 'It is empty here';
-    refs.moviesListEl.appendChild(image);
+    refs.container.innerHTML = '';
+    refs.moviesListEl.innerHTML = '';
+    refs.moviesListEl.innerHTML = '<p class="empty-text">there are no movies in the queue</p>';
   }
 }

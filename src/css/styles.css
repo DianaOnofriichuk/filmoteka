@@ -190,6 +190,14 @@ body {
   }
 }
 /* ----------------------------- */
+.empty-text {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.14;
+  text-transform: uppercase;
+  color: #706c6c;
+  text-align: center;
+}
 .movies-list {
   display: flex;
   flex-wrap: wrap;
@@ -236,8 +244,6 @@ body {
 }
 /* ================================= */
 .footer {
-  /* bottom: 0;
-  left: 0; */
   padding-top: 30px;
   height: 77px;
   background: #f7f7f7;
@@ -279,7 +285,7 @@ body {
   margin: 0 auto;
   margin-top: 50px;
   background-color: #ffffff;
-  max-width: 100%;
+  width: 280px;
   padding: 40px 20px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
     0px 2px 1px rgba(0, 0, 0, 0.2);
@@ -388,7 +394,7 @@ body {
 @media screen and (min-width: 320px) {
   .modal {
     padding: 43px 30px;
-    width: 280px;
+    width: 310px;
   }
 }
 @media screen and (min-width: 768px) {

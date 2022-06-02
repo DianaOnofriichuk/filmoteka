@@ -12,12 +12,15 @@ export const refs = {
   backdropEl: document.querySelector('.backdrop'),
   watchedBtn: document.querySelector('.watched-btn-js'),
   oueueBtn: document.querySelector('.queue-btn-js'),
+  container: document.getElementById('tui-pagination-container'),
 };
 const KEY = '4a38965c8274ee66c1019c21406c4653';
 export let selectedMovie = '';
 
-export async function fetchTrendingMovies() {
-  const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${KEY}`);
+export async function fetchTrendingMovies(_, pageCounter) {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/trending/movie/day?api_key=${KEY}&page=${pageCounter}`,
+  );
   const trendingMovies = await response.json();
   localStorage.setItem('movies', JSON.stringify(trendingMovies));
   return trendingMovies;
