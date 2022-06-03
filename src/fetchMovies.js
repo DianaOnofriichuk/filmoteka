@@ -13,16 +13,21 @@ export const refs = {
   watchedBtn: document.querySelector('.watched-btn-js'),
   oueueBtn: document.querySelector('.queue-btn-js'),
   container: document.getElementById('tui-pagination-container'),
+  loaderEl: document.querySelector('.loader'),
 };
 const KEY = '4a38965c8274ee66c1019c21406c4653';
 export let selectedMovie = '';
 
 export async function fetchTrendingMovies(_, pageCounter) {
+  refs.loaderEl.classList.remove('loader_not-active');
+
   const response = await fetch(
     `https://api.themoviedb.org/3/trending/movie/day?api_key=${KEY}&page=${pageCounter}`,
   );
   const trendingMovies = await response.json();
   localStorage.setItem('movies', JSON.stringify(trendingMovies));
+
+  refs.loaderEl.classList.add('loader_not-active');
   return trendingMovies;
 }
 
@@ -39,19 +44,23 @@ export async function fetchGenres() {
 }
 
 export async function fetchMovies(movieName, pageCounter) {
+  refs.loaderEl.classList.remove('loader_not-active');
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?api_key=${KEY}&query=${movieName}&language=en-US&page=${pageCounter}&include_adult=false`,
   );
   const movies = await response.json();
   localStorage.setItem('movies', JSON.stringify(movies));
+  refs.loaderEl.classList.add('loader_not-active');
   return movies;
 }
 
 export async function fetchOneMovie(movieName) {
+  refs.loaderEl.classList.remove('loader_not-active');
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/${movieName}?api_key=${KEY}&language=en-US`,
   );
   selectedMovie = await response.json();
+  refs.loaderEl.classList.add('loader_not-active');
   return selectedMovie;
 }
 

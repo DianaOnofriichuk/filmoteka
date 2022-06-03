@@ -8,25 +8,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link
       rel="stylesheet"
       href="https://uicdn.toast.com/tui.pagination/latest/tui-pagination.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
     />
   </head>
   <body>
     <!-- ////////////////////header///////////////////// -->
     <header class="header">
-      <div class="container">
-        <nav class="navigation">
+      <div class="header-container container">
+        
           <a class="logo link" href="index.html">
             <svg class="logo__icon">
               <use href="images/sprites.svg#icon-film"></use>
             </svg>
             <p class="logo-text">&nbspFilmoteka</p>
           </a>
+          <nav class="navigation"></nav>
           <ul class="navigation-list list">
             <li class="navigation-item">
               <a class="navigation-link home-page-js link">Home</a>
@@ -36,6 +37,7 @@
             </li>
           </ul>
         </nav>
+      </div>
         <div class="header-central-container">
           <div class="form-container">
             <form class="search-form" id="search-form">
@@ -54,6 +56,7 @@
             </form>
             <p class="search-failure-text"></p>
           </div>
+        
           <!-- ///////////////// library////////////////////////////////////////////////  -->
           <ul class="library-buttons-list list">
             <li class="library-buttons-item">
@@ -64,11 +67,12 @@
             </li>
           </ul>
         </div>
-      </div>
+      
     </header>
     <!-- ////////////////main////////////////// -->
     <main>
       <section class="section">
+        <span class="loader loader_not-active"></span>
         <div class="container">
           <ul class="movies-list list"></ul>
           <div id="tui-pagination-container" class="tui-pagination"></div>

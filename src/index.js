@@ -77,9 +77,16 @@ function openPagination(totalItems, func, value) {
   let instance = new Pagination(refs.container, options);
   instance.on('afterMove', event => {
     pageCounter = event.page;
-    func(value, pageCounter).then(movies => {
-      createListMarkup(movies.results);
-    });
+    func(value, pageCounter)
+      .then(movies => {
+        createListMarkup(movies.results);
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      })
+      .catch(error => console.log(error));
   });
 }
 

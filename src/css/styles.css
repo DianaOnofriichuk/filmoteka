@@ -37,16 +37,33 @@ img {
 body {
   font-family: 'Roboto';
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-
+main {
+  flex: 1;
+}
 .container {
+  width: 280px;
+  margin-left: auto;
+  margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
 }
-
+@media screen and (min-width: 768px) {
+  .container {
+    width: 760px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 1195px;
+  }
+}
 .section {
   padding-top: 60px;
-  padding-bottom: 60px;
+  padding-bottom: 45px;
 }
 /* ////////////////////////////////////////////////////////// */
 .btn {
@@ -70,7 +87,11 @@ body {
   padding-top: 41px;
   background-color: rgba(9, 9, 9, 0.56);
 }
-
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .header-bg-home-page {
   background-image: linear-gradient(rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)),
     url('../images/bg-home-page.jpg');
@@ -80,10 +101,8 @@ body {
     url('../images/bg-library-page.jpg');
 }
 .navigation {
-  padding: 0, 15px;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
 }
 .logo {
   display: flex;
@@ -189,8 +208,9 @@ body {
     min-width: 336px;
   }
 }
-/* ----------------------------- */
+/* ----------------------------list---------------------------- */
 .empty-text {
+  margin: 0 auto;
   margin-top: 20px;
   font-size: 14px;
   line-height: 1.14;
@@ -201,14 +221,14 @@ body {
 .movies-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   margin-left: -30px;
   margin-top: -30px;
 }
 .movie-card {
-  flex-basis: calc((100% - 120) / 4);
   margin-left: 30px;
   margin-top: 30px;
+
+  border: 1px solid #c8c4c4;
   transition-property: box-shadow;
   transition-duration: 250ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -222,7 +242,7 @@ body {
 }
 .image {
   object-fit: cover;
-  width: 275px;
+  width: 100%;
   height: 86%;
 }
 .movie-name {
@@ -242,13 +262,43 @@ body {
   line-height: 1.33;
   color: #ff6b08;
 }
-/* ================================= */
+@media screen and (min-width: 768px) {
+  .movie-card {
+    flex-basis: calc((100% - 90px) / 3);
+  }
+}
+@media screen and (min-width: 1200px) {
+  .movie-card {
+    flex-basis: calc((100% - 120px) / 4);
+  }
+}
+/* ///////////////////pagination////////////////////////// */
+.tui-pagination {
+  margin-top: 45px;
+}
+.tui-pagination .tui-is-selected,
+.tui-pagination strong {
+  background: #ff6b01;
+  border-color: #ff6b01;
+}
+.tui-pagination .tui-is-selected:hover {
+  background-color: #ff6b01;
+}
+.tui-pagination .tui-first-child.tui-is-selected {
+  border-left: 1px solid #ff6b01;
+}
+
+.tui-pagination .tui-last-child.tui-is-selected {
+  border-right: 1px solid #ff6b01;
+}
+/* ================footer================= */
 .footer {
   padding-top: 30px;
   height: 77px;
   background: #f7f7f7;
 }
 .footer-text {
+  flex: 0 0 auto;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.18;
@@ -259,7 +309,7 @@ body {
   width: 14px;
   height: 13px;
 }
-/* //////////////////////////////////////////////////// */
+/* ///////////////////////////modal///////////////////////// */
 
 .backdrop {
   opacity: 1;
@@ -386,6 +436,7 @@ body {
   background: transparent;
   cursor: pointer;
 }
+
 .is-active {
   background: #ff6b01;
   border: none;
@@ -415,4 +466,42 @@ body {
     margin-bottom: 0;
     margin-right: 30px;
   }
+}
+
+.loader {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 5px solid;
+  border-color: #ff6b01 transparent;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loader_not-active {
+  display: none;
 }
